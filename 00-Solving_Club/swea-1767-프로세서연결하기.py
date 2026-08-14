@@ -40,32 +40,33 @@ def in_range(x, y, N):
 def cal_wire_length(dir, x, y, nx, ny): # 현재 방향, 끝까지 간 좌표에서 첫 좌표 빼서 리턴
     return abs(y - ny) if dir % 2 == 0 else abs(x - nx)
 
-def dfs(cur_xy, count):
+def dfs(cur_xy_count, count):
     global maxynos_copy, total_count
 
-    if cur_xy == len(coordinates):
+    if cur_xy_count == len(coordinates):
         maxynos_copy = copy.deepcopy(maxynos)
-        total_count = min(total_count, count)
+        total_count = max(total_count, count)
+        count = 0
         return
 
-    x, y = coordinates[cur_xy][0], coordinates[cur_xy][1]
+    x, y = coordinates[cur_xy_count][0], coordinates[cur_xy_count][1]
     
     for dir in range(4): # 한 방향에 대해서
         mul = 1
         nx, ny = x + dirs[dir][0] * mul, y + dirs[dir][1] * mul # 한 번 더한 거 / 근데 여러 번 더해야 함
-    
+
         while in_range(nx, ny, N):
             if maxynos_copy[nx][ny] == 0: # 갈 수 있으면
                 maxynos_copy[nx][ny] = 1 # 가고 방문처리
                 nx, ny = x + dirs[dir][0] * mul, y + dirs[dir][1] * mul # ... 칸 더 가기 
                 mul += 1 
             else: # 갈 수 없으면
-                continue # 그 방향으로는 안 가
+                break # 그 방향으로는 안 가
         else: # break 가 안 떴다? 그 방향으로 끝까지 갔다는 뜻, 그 때 nx, ny 중 하나 0이거나 N
             # 그 간 만큼 전선 길이 넣기
-            dfs(cur_xy + 1, count + cal_wire_length(dir, x, y, nx, ny))
-    else:
-        dfs(cur_xy + 1, count)
+            dfs(cur_xy_count + 1, count + cal_wire_length(dir, x, y, nx, ny))
+            
+    dfs(cur_xy_count + 1, count)
 
     
 T = int(input())
@@ -73,7 +74,7 @@ for tc in range(1, T+1):
     N = int(input())
     maxynos = []
     coordinates = []
-    total_count = float('inf')
+    total_count = 0
     for i in range(N):
         maxynos.append(list(map(int, input().split())))
     maxynos_copy = copy.deepcopy(maxynos)
@@ -83,5 +84,5 @@ for tc in range(1, T+1):
             if maxynos[i][j] == 1:
                 coordinates.append((i, j))
 
-    dfs(0, N * N)
+    dfs(0, 0)
     print(f'#{tc} {total_count}')
