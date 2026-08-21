@@ -3,7 +3,7 @@
 # 폐업시키지 않을 치킨집을 최대 M개 골랐을 때, 도시의 치킨 거리의 최솟값
 # chicken_restaurant 수를 가지고 조합 리스트 만들기 레스토랑 수 * M 개의 이차원 리스트 생성
 def comb(depth, idx): # 현재 깊이, 인덱스
-    
+
     if depth == M:
         yield combination[:]
         return
@@ -25,7 +25,7 @@ def calculate_min_distance():
             min_length = float('inf')
             for c in combination:
                 min_length = min(min_length, distance[h][c])
-            cul_chicken_length += min_length        
+            cul_chicken_length += min_length
         # 선택한 치킨 좌표에 대해서 (하나의 조합에 대해서) 도시의 치킨 거리 합 구하기
         min_chicken_length = min(cul_chicken_length, min_chicken_length) # 도시의 치킨 거리 합 중 최솟값 구하기
 
