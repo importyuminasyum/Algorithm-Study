@@ -32,7 +32,7 @@ def bfs(r, c):
                             state.append((nr, nc, chance))
         min_length += 1
 
-    return -1    
+    return 1  
 
 N, M = map(int, input().split()) # 종료지점
 
