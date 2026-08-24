@@ -21,12 +21,11 @@ def bfs():
     
     day = -1
 
-    while state:
-        cur_tomato = len(state)
+    while state: 
         day += 1
 
         # 현재 depth로 들어간 만큼만 비우겠다
-        for _ in range(cur_tomato):
+        for _ in range(len(state)):
             r, c = state.popleft()
             state.extend(ripe(trial_box, r, c))
 

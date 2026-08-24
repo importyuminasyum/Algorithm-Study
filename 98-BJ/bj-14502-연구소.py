@@ -36,7 +36,7 @@ map_shape = [
     list(map(int, input().split()))
     for _ in range(N)
 ]
-max_safezone = float('-inf')
+max_safezone = 0
 
 blank_rcs = []
 virus_rcs = []
