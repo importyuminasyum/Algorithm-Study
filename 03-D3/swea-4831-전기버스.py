@@ -11,5 +11,8 @@ for test_case in range(1, T + 1):
                 bus += i
                 result += 1
                 break
+        else:
+            result = 0
+            break
 
     print(f'#{test_case} {result}')
