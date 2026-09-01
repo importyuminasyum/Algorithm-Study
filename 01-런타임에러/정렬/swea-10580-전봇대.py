@@ -3,13 +3,16 @@ T = int(input())
 for tc in range(1, T+1):
     N = int(input())
     A, B = [], []
-    A_swap, B_swap = 0, 0
+    swap = 0
 
     for _ in range(N):
         a, b = map(int, input().split())
         A.append(a)
         B.append(b)
 
-    
-    
-    print(f'#{tc} {abs(A_swap - B_swap)}')
+    for i in range(N):
+        for j in range(i + 1, N):
+            if (A[i] > A[j] and B[i] < B[j]) or (A[i] < A[j] and B[i] > B[j]):
+                swap += 1
+
+    print(f'#{tc} {swap}')

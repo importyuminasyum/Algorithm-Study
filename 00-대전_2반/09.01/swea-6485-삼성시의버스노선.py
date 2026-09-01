@@ -11,9 +11,9 @@ for tc in range(1, T+1):
         for i in range(a, b + 1):
             bus_stops[i] += 1
 
+    print(f"#{tc}", end=" ")
     P = int(input())
     for _ in range(P):
         index = int(input())
-        result.append(bus_stops[index])
-
-    print(f"#{tc} {' '.join(map(str, result))}")
+        print(bus_stops[index], end=" ")
+    print()
