@@ -6,7 +6,6 @@ from itertools import combinations
 # A, B에 대해서 최솟값 출력하기
 
 def cal_min_diff(A, B):
-    global min_diff 
     A_synergy, B_synergy = 0, 0
 
     for i, j in combinations(A, 2):
