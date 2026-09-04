@@ -107,7 +107,7 @@ def one_explosion(perm, copy_bricks):
                     break 
                     
                 if copy_bricks[nr][nc] > 1:
-                    copy_bricks[nr][nc] -= 1
+                    copy_bricks[nr][nc] = 0
 
                 if copy_bricks[nr][nc] == 1:
                     copy_bricks[nr][nc] = 0
