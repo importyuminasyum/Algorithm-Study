@@ -15,7 +15,6 @@ def dfs(idx, score, cal):
 
     if idx > N:
         max_score = max(max_score, score)
-        print(max_score)
         return
     
     dfs(idx+1, score, cal)
@@ -31,7 +30,6 @@ for tc in range(1, T + 1):
     for i in range(1, N+1):
         like[i], calorie[i] = map(int, input().split())
 
-    print(f'#{tc}', end='')
     dfs(1, 0, 0)
-
+    print(f'#{tc} {max_score}')
     
