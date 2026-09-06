@@ -1,19 +1,3 @@
-T = int(input())
-for tc in range(1, T+1):
-    D, W, K = map(int, input().split())
-    # D: 두께
-    # W: 가로 크기
-    films = [
-        list(map(int, input().split()))
-        for _ in range(D)
-    ]
-    # A: 0, B: 1
-    min_input = 0
-
-    dfs(0, films)
-
-    print(f'#{tc} {min_input}')
-
 '''
 def performance_test(films):
 
@@ -59,27 +43,36 @@ def medication(row_idx, selected_D, value):
 
 def performance_test(films):
     # 모든 열이 통과하면 통과, 중간에 안되는 거 있으면 그냥 return 0
+    possible_count = 0
     for col in range(W):
-        possible_count = 0
-        
+    # 열 우선 순회
+        # 한 행에 대해서 두가지 중 하나만 만족하면 possible count += 1
+        state = 0
         for value in (0, 1):
-            value_count = 0
+            # 0 찾기
+            k_count = 0
 
             for row in range(D):
-                if value_count == K:
-                    possible_count += 1
+                if k_count >= K:
+                    state += 1
                     break
-                break
-                
-                if films[row][col] == value:
-                    value_count += 1
-                    continue
-                
-                value_count = 0
-
-    if possible_count >= K:
-        return 1
             
+                if films[row][col] == value:
+                    k_count += 1
+            
+                else:
+                    k_count = 0
+
+            if k_count >= K:
+                state += 1
+
+        if state:
+            possible_count += 1
+
+    if possible_count == W:
+        return 1
+
+    return 0
 
         
 처음에 들어오자마자 그냥 확인
@@ -99,3 +92,62 @@ def performance_test(films):
 
 
 '''
+
+def performance_test(cur_films):
+    for col in range(W):
+        count = 1
+
+        for row in range(1, D):
+            if cur_films[row][col] == cur_films[row - 1][col]:
+                count += 1
+            else:
+                count = 1
+
+            if count >= K:
+                break
+
+        if count < K:
+            return False
+        
+    return True
+
+def dfs(row, count):
+    global min_input
+
+    if count >= min_input:
+        return
+    
+    if performance_test(films):
+        min_input = count
+        return 
+
+    if row == D:
+        return
+
+    dfs(row + 1, count)
+
+    backup = films[row][:]
+
+    films[row] = [0] * W
+    dfs(row + 1, count + 1)
+
+    films[row] = [1] * W
+    dfs(row + 1, count + 1)
+
+    films[row] = backup
+
+T = int(input())
+for tc in range(1, T+1):
+    D, W, K = map(int, input().split())
+    # D: 두께
+    # W: 가로 크기
+    films = [
+        list(map(int, input().split()))
+        for _ in range(D)
+    ]
+    # A: 0, B: 1
+    min_input = float('inf')
+
+    dfs(0, 0)
+
+    print(f'#{tc} {min_input}')
