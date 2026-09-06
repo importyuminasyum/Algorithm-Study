@@ -80,7 +80,7 @@ for tc in range(1, T + 1):
                 dir = dir_tank_to_num(status[i][j])
                 x, y = i, j
 
-    # shoot은 return 업어도 됨
+    # shoot은 return 없어도 됨 (탱크 위치나 방향 안 바뀜)
     # move는 이동 후 탱크 좌표, 방향 재할당 필요
     for command in commands:
         if command == 'S':
