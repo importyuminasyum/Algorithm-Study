@@ -1,25 +1,49 @@
-def perm(depth, cur_length):
-    global min_length
-    if depth == N:
-        min_length = min(cur_length, min_length)
-        return
 
-    for i in range(N):
-        
+'''
+perm
+해야할 것
+모든 좌표에 대해서 좌표 길이 ** 2 크기의 배열 만들어서 거리 구해놓기
+
+perm으로 경로 뽑기
+'''
+from itertools import permutations
+
+def cal_min_length():
+    global result
+
+    for perm in permutations(range(1, N + 1), N):
+
+        min_length = distance[0][perm[0]]
+        for i in range(1, len(perm)):
+            min_length += distance[perm[i - 1]][perm[i]]
+        min_length += distance[perm[-1]][-1]
+        result = min(min_length, result)
+    return
+            
 
 T = int(input())
 for tc in range(1, T+1):
     N = int(input())
     rcs = list(map(int, input().split()))
-    company = tuple(rcs[0:2])
-    home = tuple(rcs[2:4])
+    pairs = []
+    
+    for i in range(0, 2 * (N + 2), 2):
+        pairs.append((rcs[i], rcs[i + 1]))
 
-    customers = []
-    for i in range(4, 2 * N + 4 , 2):
-        customers.append(tuple(rcs[i:i + 2]))
+    home = pairs.pop(1)
+    pairs.append(home)
 
-    min_length = float('inf')
+    result = float('inf')
 
-    perm(1, 0)
+    distance = [
+        [0] * (N + 2)
+        for _ in range(N + 2)
+    ]
 
-    print(f'#{tc} {min_length}')
+    for row in range(N + 2):
+        for col in range(N + 2):
+            distance[row][col] = abs(pairs[row][0] - pairs[col][0]) + abs(pairs[row][1] - pairs[col][1])
+
+    cal_min_length()
+
+    print(f'#{tc} {result}')

@@ -1,0 +1,5 @@
+a = 'baob'
+b = ['b', 'a', 'b', 'o']
+
+if list(a) == b:
+    print(1)
