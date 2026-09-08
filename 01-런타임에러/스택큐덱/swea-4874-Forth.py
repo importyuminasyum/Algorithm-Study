@@ -4,49 +4,30 @@ for tc in range(1, T+1):
     result = 0
     stack = []
 
-    for i in range(len(forth_code)):
-        if forth_code[i] == '.':
-            result = stack.pop()
+    for i in range(len(forth_code) - 1):
+        # 받은 수가 숫자일 때 스택에 넣기
+        if forth_code[i].isdigit():
+            stack.append(int(forth_code[i]))
 
-        if forth_code[i] == '+':
-            b = int(stack.pop())
-            a = int(stack.pop())
-
-            if a in ('+', '-', '*', '/') or b in ('+', '-', '*', '/'):
+        elif stack:
+            if len(stack) < 2:
                 result = 'error'
                 break
 
-            stack.append(a + b)
-        elif forth_code[i] == '-':
-            b = int(stack.pop())
-            a = int(stack.pop())
-            
+            else:
+                b = stack.pop()
+                a = stack.pop()
 
-            if a in ('+', '-', '*', '/') or b in ('+', '-', '*', '/'):
-                result = 'error'
-                break
+                if forth_code[i] == '+':
+                    stack.append(a + b)
+                if forth_code[i] == '-':
+                    stack.append(a - b)
+                if forth_code[i] == '*':
+                    stack.append(a * b)
+                if forth_code[i] == '/':
+                    stack.append(int(a / b))
 
-            stack.append(a - b)
-        elif forth_code[i] == '*':
-            b = int(stack.pop())
-            a = int(stack.pop())
-
-            if a in ('+', '-', '*', '/') or b in ('+', '-', '*', '/'):
-                result = 'error'
-                break
-
-            stack.append(a * b)
-        elif forth_code[i] == '/':
-            b = int(stack.pop())
-            a = int(stack.pop())
-
-            if a in ('+', '-', '*', '/') or b in ('+', '-', '*', '/'):
-                result = 'error'
-                break
-
-            stack.append(a // b)
-  
-        else:
-            stack.append(forth_code[i])
-
+    if len(stack) == 1 and result.isdigit():
+        result = stack.pop()
+    
     print(f'#{tc} {result}')
