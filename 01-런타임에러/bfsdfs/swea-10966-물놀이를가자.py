@@ -7,9 +7,6 @@ N: 행, M: 열
 방문 처리
 그런데 다른 시작점에서 시작한다면 먼저 도착하는 애가 무조건 최소경로임
 땅을 발견했다면 그때의 이동횟수를 누적하고 계속 가 
-물이라면 멈추기?
-
-만약에 
 
 '''
 from collections import deque
@@ -22,28 +19,28 @@ def in_range(r, c):
 def land_search():
     result = 0
     visited = [[0] * M for _ in range(N)]
+    dist = [[0] * M for _ in range(N)]
     move = 0
 
     while water_rcs:
-        cur_r, cur_c, move = water_rcs.popleft()
+        cur_r, cur_c = water_rcs.popleft()
         visited[cur_r][cur_c] = 1
 
         for dr, dc in dirs:
             nr, nc = cur_r + dr, cur_c + dc
+
             if not in_range(nr, nc):
                 continue
 
-            if visited[nr][nc]:
-                continue
+            if field[nr][nc] == 'L' and not visited[nr][nc]:
+                visited[nr][nc] = 1
 
-            if field[nr][nc] == 'L':
-                result += move
+                dist[nr][nc] = dist[cur_r][cur_c] + 1
+                result += dist[nr][nc] + 1
                 
+                water_rcs.append((nr, nc))
 
-            visited[nr][nc] = 1
-            water_rcs.append((nr, nc, move + 1))
-
-    return move
+    return dist
 
 T = int(input())
 for tc in range(1, T+1):
@@ -59,4 +56,4 @@ for tc in range(1, T+1):
             if field[r][c] == 'W':
                 water_rcs.append((r, c))
 
-    print(f'#{tc} {land_search()}')
+    print(f'#{tc} {land_search()}') 
