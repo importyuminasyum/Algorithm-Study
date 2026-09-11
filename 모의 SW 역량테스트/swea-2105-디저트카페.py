@@ -32,17 +32,25 @@ dirs = [(1, 1), (1, -1), (-1, -1), (-1, 1)]
 cr, cc = r, c
 
 for dir in range(4):
-    dr, dc = dirs[dir][0], dirs[dir][1]
-    nr, nc = cr + dr, cc + dc
+    중심에서부터 끝 인덱스까지의 차: N - 1 - r
+    그만큼 length로 두기 - 한 dir에 대해서 최대 그만큼만 반복 가능
+    length_range = N - r
+    for length in range(1, length_range):
 
-    if not in_range(nr, nc):
-        continue
+        dr, dc = dirs[dir][0], dirs[dir][1]
+        nr, nc = cr + dr * length, cc + dc * length
+
+        if not in_range(nr, nc): - 범위 벗어나면 자리 바꿔
+            continue
+            
+        if rocation[nr][nc] - 이미 먹은 적 있으면 그 방향 그만 봐(set으로 관리)
+            break
         
-    if rocation[nr][nc] - 방문한 적 있으면 (set으로 관리)
-        continue
-    
-    dessert_count += rocation[nr][nc]
-    max_dessert = max(dessert, max_dessert)
+        visited_dessetadd(rocation[nr][nc])
+        
+        도달하는 것까지는 어떻게 구현하겠는데
+        범위가 안 되도 그냥 가고 싶은데
+        max_dessert = max(len(dessert), max_dessert)
     
 
 '''
