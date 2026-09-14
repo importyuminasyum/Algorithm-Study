@@ -1,8 +1,8 @@
 T = int(input())
 for tc in range(1, T+1):
     parentheses = input()
-
     cul_stick_count, result = 0, 0
+    
     for i in range(len(parentheses)):
         if parentheses[i] == '(':
             if parentheses[i+1] == ')':
