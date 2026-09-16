@@ -19,38 +19,54 @@ max_dessert
 - 디저트를 가장 많이 먹을 때의 디저트 수
 - 디저트를 먹을 수 없는 경우 -1
 
-일단 방향을 바꿔
-- 중심에서
+'''
+
 dirs = [(1, 1), (1, -1), (-1, -1), (-1, 1)]
 
-중심에서 투어 시작인데 
-- 범위는 행은 끝에서 2 전까지만 가능 range(N - 3)
-- 열은 처음 열 끝 열은 제외 range(1, N - 1) 
+def in_range(r, c, a, b):
+    return 0 <= r < N and 0 <= c < N and r + a + b < N and c + a < N and c - b >= 0
 
-중심 탐색
-- 한 중심에 대해서
-cr, cc = r, c
+def dessert_search():
+    global max_dessert
 
-for dir in range(4):
-    중심에서부터 끝 인덱스까지의 차: N - 1 - r
-    그만큼 length로 두기 - 한 dir에 대해서 최대 그만큼만 반복 가능
-    length_range = N - r
-    for length in range(1, length_range):
+    for r in range(N):
+        for c in range(N):
+            for a in range(1, N):
+                for b in range(1, N):
+                    if not in_range(r, c, a, b):
+                        continue
 
-        dr, dc = dirs[dir][0], dirs[dir][1]
-        nr, nc = cr + dr * length, cc + dc * length
+                    selected_dessert = set()
+                    cr, cc = r, c        
 
-        if not in_range(nr, nc): - 범위 벗어나면 자리 바꿔
-            continue
-            
-        if rocation[nr][nc] - 이미 먹은 적 있으면 그 방향 그만 봐(set으로 관리)
-            break
-        
-        visited_dessetadd(rocation[nr][nc])
-        
-        도달하는 것까지는 어떻게 구현하겠는데
-        범위가 안 되도 그냥 가고 싶은데
-        max_dessert = max(len(dessert), max_dessert)
-    
+                    valid = True      
 
-'''
+                    for dir in range(4):
+                        length = a
+
+                        if dir % 2:
+                            length = b
+
+                        for _ in range(length):
+                            nr, nc = cr + dirs[dir][0], cc + dirs[dir][1]
+
+                            if rocation[nr][nc] in selected_dessert:
+                                valid = False
+                                break
+
+                            selected_dessert.add(rocation[nr][nc])
+                            cr, cc = nr, nc
+
+                        if not valid:
+                            break
+
+                    if valid:
+                        max_dessert = max(len(selected_dessert), max_dessert)
+
+T = int(input())
+for tc in range(1, T+1):
+    N = int(input())
+    rocation = [list(map(int, input().split())) for _ in range(N)]
+    max_dessert = -1
+    dessert_search()
+    print(f'#{tc} {max_dessert}')

@@ -2,12 +2,16 @@ from collections import deque
 
 dirs = [(0, 1), (1, 0), (0, -1), (-1, 0)]
 
+
 def in_range(r, c):
     return 0 <= r < 16 and 0 <= c < 16
+
 
 def bfs():
     que = deque()
     que.append(start)
+
+    # 시작점 방문 처리
     maze[start[0]][start[1]] = '1'
 
     while que:
@@ -30,7 +34,8 @@ def bfs():
 
     return 0
 
-for _ in range(1, 11):
+
+for _ in range(10):
     tc = int(input())
     maze = [list(input()) for _ in range(16)]
 
@@ -38,8 +43,5 @@ for _ in range(1, 11):
         for c in range(16):
             if maze[r][c] == '2':
                 start = (r, c)
-
-            if maze[r][c] == '3':
-                end = (r, c)
 
     print(f'#{tc} {bfs()}')
