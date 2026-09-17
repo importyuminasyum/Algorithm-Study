@@ -1,20 +1,32 @@
-def tournament(deck_a, deck_b):
-    global final_winner
+def tournament(start, end):
+    if start == end:
+        return start
 
-    # 어떤 두 배열을 받아서 각각을 둘로 나누기
-    # 만약에 길이가 하나면 두 배열 중 이긴 애 인덱스 번호 + 1을 return 해
+    mid = (start + end) // 2
+    left = tournament(start, mid)
+    right = tournament(mid + 1, end)
 
+    return rcp(left, right)
 
+def rcp(a, b):
+    if cards[a] == cards[b]:
+        return a
 
+    if (
+        (cards[a] == 1 and cards[b] == 3) or
+        (cards[a] == 2 and cards[b] == 1) or
+        (cards[a] == 3 and cards[b] == 2)
+    ):
+        return a
 
+    return b
+ 
 T = int(input())
 
 for tc in range(1, T+1):
     N = int(input())
     cards = list(map(int, input().split()))
-    final_winner = N + 1 # 우승자의 번호
-    # 0, 1, 2 - 1번 2번 3번
 
-    tournament(cards[:N//2], cards[N//2:N])
+    winner = tournament(0, N - 1)
 
-    print(f'#{tc} {final_winner}')
+    print(f'#{tc} {winner + 1}')

@@ -20,6 +20,7 @@ def dijkstra():
     while pq:
         # 최소비용 먼저 pop
         cur_cost, r, c = heapq.heappop(pq)
+        
         # 현재 pop한 상태가 유효한가?
         if cur_cost > dist[r][c]:
             continue
